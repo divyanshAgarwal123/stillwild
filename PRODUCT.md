@@ -1,0 +1,19 @@
+# Stillwild
+
+Confirmed context, 8 November 2026: an image-led creative wallpaper studio for choosing a bundled or private photograph, editing its look and local motion, optionally generating model video, and delivering a still or a loop that is silent by default, with explicitly chosen project sound optional at export. The user rejects generic editor chrome and full-frame synthetic overlays. The relationship between the image, its regions and the controls is the product.
+
+Existing React/TypeScript/Vite and vanilla CSS. Preserve projects/media, Classic, source IDs/shares, session-only provider keys, automatic editable generation, latest-edit/crop/Undo, portable backups, 4K PNG and timestamped 1080p exports. No accounts, billing, live generation, deployment or new backend. Supervisor owns independent review and publication.
+
+Analysis stays local. Pixel heuristics suggest scenes/regions; they are not semantic AI detection. Users inspect/correct suggestions before effects are enabled. Optional metadata must be bounded/validated, absence neutral. Never alter originals. No classifier download is needed for the base experience.
+
+Motion Plus, 9 November 2026: Animate scene opens an editable, content-specific model prompt. Model video, Look/light keyframes and optional local pixel retouch are different operations. Static bloom alone is not motion. The transport identifies active temporal sources and stops idle redraw.
+
+Project sound offers nine procedural choices (not recordings), up to eight editable layers, and private WAV/MP3/OGG imports up to 16 MB / 60s / stereo. Preview starts explicitly; reload/share/import remain quiet. Source video audio stays muted. Silent export remains the default; Include sound mixes project sound locally with bounded levels/fades. No new runtime dependency or audio download is used.
+
+Guest journey, 9 November 2026: first visitors enter immediately through a photographic welcome, choose a bundled scene or their own image, and can use an optional guide through animation, customization and delivery. Returning work opens quietly; Welcome and Guide can be replayed without resetting edits. Projects stay on this device, subject to browser storage availability. Recovery preserves unread stored work and identifies session-only work. Only a successful artwork download handoff completes the journey; the finish offers an editable backup, local save and desktop instructions.
+
+Living interface motion, 9 November 2026: Welcome photographs continue with local cloud drift, travelling dune light, and Tokyo sign/reflection/rain treatments. Pause background holds the current frame. Hidden/reduced states stop scheduling; reduced motion releases the atmosphere buffers. These are welcome-only image treatments, separate from artwork and model generation. Shared short UI transitions preserve mounted photo/Classic work and task-panel drafts; keyboard actions stay immediate and native import/fullscreen activation is synchronous.
+
+Motion efficacy, 9 November 2026: Apply & preview enables a usable current-crop region and removes its editing guide while retaining Pause, Before and reduced-motion choices. Bloom guidance samples graded pixels inside the selected matte. Local movement uses one source sample with displacement tapering at matte edges; foliage confidence protects lower rock/foreground. Work resolution and cache byte budgets stay bounded. Workspace suspension holds the last painted time and layout-sized canvas through Back.
+
+API cleanup, 9 November 2026: Animate offers Wan as a free shared-quota trial and one configurable Your API connection. Visitor-owned keys and all connection settings stay only in mounted page memory. JSON request/auth/response mappings are explicit; browser CORS and format compatibility are required. New results carry custom provenance, while legacy Google/Kling videos remain editable and exportable. No live compatibility or guaranteed free quota is claimed.

@@ -1,0 +1,23 @@
+Stillwild — additional third-party notice
+
+Mediabunny 1.65.2, by Vanilagy and contributors, is reused without modification
+for local timestamped canvas video encoding and WebM muxing.
+License: Mozilla Public License 2.0 (MPL-2.0).
+Full preserved license: /third-party/mediabunny-1.65.2-LICENSE.txt
+Pinned package source: https://registry.npmjs.org/mediabunny/-/mediabunny-1.65.2.tgz
+Upstream source: https://github.com/Vanilagy/mediabunny
+The source package retains its upstream notices. Stillwild imports the unmodified
+library; its application integration is maintained separately.
+
+Other dependencies and reused assets are listed in the project README.
+
+Wallpaper gallery photographs: 12 reused images under the Unsplash License.
+Photographers/agencies and source/license links: /PHOTO-CREDITS.html
+Exact bundled asset hashes and dimensions: /photos/provenance.json
+These photographs and telescope images are not generated AI stock.
+
+Manrope UI font
+Copyright 2018 The Manrope Project Authors (https://github.com/sharanda/manrope)
+SIL Open Font License 1.1. Full license: fonts/Manrope-OFL.txt
+Source: https://github.com/google/fonts/tree/main/ofl/manrope
+Font SHA-256: 3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6

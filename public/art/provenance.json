@@ -1,0 +1,21 @@
+{
+  "assets": [
+    {
+      "file": "natural-conservatory.png",
+      "description": "Original naturalistic forest conservatory at first light, with a quiet pool and negative space for desktop icons.",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2592172,
+      "source": "OpenAI built-in image generation tool, created during the Asyncly Hackathon build; not a photograph of a real place."
+    },
+    {
+      "file": "future-nocturne.png",
+      "description": "Original cinematic future nocturne, sculptural orbital arch, dark lake, restrained teal and amber illumination.",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1945994,
+      "source": "OpenAI built-in image generation tool, created during the Asyncly Hackathon build; not a photograph of a real place."
+    }
+  ],
+  "note": "Images are original generated environment backplates. Canvas lighting, weather, objects and sound are implemented through Codex inside Asyncly. PNG export dimensions do not imply native source image resolution."
+}

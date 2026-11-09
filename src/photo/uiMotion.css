@@ -1,0 +1,22 @@
+:root{--motion-press:100ms;--motion-release:150ms;--motion-panel:180ms;--motion-dialog:220ms;--motion-navigation:240ms;--motion-exit:160ms;--motion-ease:cubic-bezier(.23,1,.32,1);--motion-drawer:cubic-bezier(.32,.72,0,1)}
+.workspace-route[hidden]{display:none!important}.workspace-route{min-height:100dvh}
+:where(.photo-studio,.welcome-threshold,.journey-guide,.journey-boot,.classic-workspace,.app) button:not(:disabled){transition:transform var(--motion-release) var(--motion-ease),opacity var(--motion-release) var(--motion-ease),background-color 120ms var(--motion-ease),color 120ms var(--motion-ease)}
+:where(.photo-studio,.welcome-threshold,.journey-guide,.classic-workspace,.app) button:not(:disabled):active{transform:scale(.97);transition-duration:var(--motion-press)}
+:where(.photo-studio,.welcome-threshold,.journey-guide) button>svg{transition:transform var(--motion-release) var(--motion-ease)}
+:where(.photo-studio,.welcome-threshold,.journey-guide) button:active>svg{transform:scale(.94)}
+.gallery-open img,.welcome-scenes img{transition:transform var(--motion-panel) var(--motion-ease),opacity var(--motion-panel) var(--motion-ease)}
+@media(hover:hover) and (pointer:fine){.gallery-open:hover img{transform:scale(1.012)}.welcome-scenes button:hover img{transform:scale(1.035)}}
+.motion-retiring,.motion-retiring *{pointer-events:none!important;animation:none!important;transition:none!important}.motion-retiring{overflow:hidden}
+.welcome-scene .welcome-living{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 46%;opacity:0;transition:opacity 220ms var(--motion-ease)}
+.welcome-threshold[data-image-state=ready] .welcome-living{opacity:1}.photo-dunes-light .welcome-living{object-position:60% 65%}.photo-tokyo-asakusa .welcome-living{object-position:60% 68%}
+.welcome-previous{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transition:opacity var(--motion-navigation) var(--motion-ease)}
+.welcome-ambient-control{display:flex;align-items:center;gap:8px;margin-top:6px;justify-content:flex-end}.welcome-ambient-control button{display:flex;align-items:center;gap:7px;font-size:10px;border:1px solid #9eaaa97a;background:#0f1719a6;min-height:36px}.welcome-ambient-control small{font-size:9px;color:#d4dedc}
+:root[data-ui-input=keyboard] button,:root[data-ui-input=keyboard] button>svg,:root[data-ui-input=keyboard] .gallery-open img,:root[data-ui-input=keyboard] .welcome-scenes img{transition:none!important;transform:none!important}
+:root[data-ui-reduced=true] button,:root[data-ui-reduced=true] button>svg,:root[data-ui-reduced=true] .gallery-open img,:root[data-ui-reduced=true] .welcome-scenes img{transform:none!important;transition:opacity 100ms linear!important}
+:root[data-ui-reduced=true] .welcome-photograph{animation:none!important;transform:none!important}:root[data-ui-reduced=true] .welcome-exposure{display:none}
+:root[data-ui-reduced=true] .welcome-living{display:none}
+@media(prefers-reduced-motion:reduce){.welcome-living{display:none}.gallery-open img,.welcome-scenes img,button,button>svg{transform:none!important;transition:opacity 100ms linear!important}}
+@media(max-width:700px){.welcome-ambient-control{justify-content:flex-start}.welcome-scene .welcome-living{object-position:60% 50%}.photo-dunes-light .welcome-living{object-position:60% 65%}.photo-tokyo-asakusa .welcome-living{object-position:60% 68%}}
+/* Scene changes dissolve from the last decoded photograph; only first entry uses the aperture. */
+.welcome-threshold[data-scene-change=true] .welcome-exposure{display:none}.welcome-threshold[data-scene-change=true][data-image-state=ready] .welcome-photograph{animation:living-scene-in 240ms var(--motion-ease) both}
+@keyframes living-scene-in{from{opacity:0}to{opacity:1}}

@@ -1,0 +1,3 @@
+import {chromium} from '@playwright/test';
+let browser,context;const timeout=setTimeout(()=>void browser?.close(),45000);
+try{browser=await chromium.launch({executablePath:process.env.STILLWILD_CHROME||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,timeout:15000});context=await browser.newContext({viewport:{width:1440,height:1100},deviceScaleFactor:1});const page=await context.newPage();await page.goto('http://127.0.0.1:5173/',{waitUntil:'networkidle'});await page.locator('.artwork canvas').waitFor();await page.screenshot({path:'.asyncly/visual-captures/v2/baseline.jpg',type:'jpeg',quality:85});console.log('Stillwild canvas rendered at http://127.0.0.1:5173/');}finally{clearTimeout(timeout);await context?.close();await browser?.close();}

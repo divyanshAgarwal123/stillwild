@@ -1,0 +1,16 @@
+import {chromium,expect} from '@playwright/test';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {makePreset,STORAGE_KEY} from '../src/model.ts';
+let browser,context;const timer=setTimeout(()=>void browser?.close(),45000);
+try{
+ browser=await chromium.launch({executablePath:process.env.STILLWILD_CHROME||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,timeout:15000});context=await browser.newContext({viewport:{width:1440,height:1180},deviceScaleFactor:1,acceptDownloads:true});const state={...makePreset('garden',0,'future'),frozen:true};
+ await context.addInitScript(({state,key})=>{localStorage.setItem(key,JSON.stringify(state));},{state,key:STORAGE_KEY});
+ await context.route('**/art/*.png',async route=>{if(route.request().url().includes('natural-')){await new Promise(r=>setTimeout(r,7500));await route.abort().catch(()=>{});}else{await new Promise(r=>setTimeout(r,1500));await route.continue().catch(()=>{});}});
+ const p=await context.newPage();await p.goto('http://127.0.0.1:5173/',{waitUntil:'domcontentloaded'});await expect(p.locator('.asset-note')).toContainText('Preparing');await expect(p.getByRole('button',{name:'Share',exact:true})).toBeDisabled();await p.getByLabel('Export resolution',{exact:true}).selectOption('1920');
+ const readiness=p.evaluate(async()=>{const{environmentReady,getAssetStatus}=await import('/src/assets.ts');const start=performance.now();await environmentReady('future',true);return {selected:getAssetStatus('future'),unused:getAssetStatus('natural'),decodeWaitMs:performance.now()-start};});const event=p.waitForEvent('download'),start=Date.now();await p.getByRole('button',{name:'Export',exact:true}).click();const download=await event;await download.saveAs('.asyncly/visual-captures/v2/future-export-during-load.png');const elapsed=Date.now()-start;
+ const status=await readiness;if(status.selected!=='ready'||status.unused!=='loading')throw new Error('Export must decode selected environment without waiting for unused image');
+ const bytes=await readFile('.asyncly/visual-captures/v2/future-export-during-load.png');const digest=createHash('sha256').update(bytes).digest('hex');
+ const repeated=await p.evaluate(async state=>{const{exportArtwork}=await import('/src/art.ts');const image=await exportArtwork(state,state.time,1920);return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await image.arrayBuffer()))).map(v=>v.toString(16).padStart(2,'0')).join('');},state);if(repeated!==digest)throw new Error('Decoded repeat hash must match export requested during loading');
+ await writeFile('.asyncly/visual-captures/v2/loading-report.json',JSON.stringify({result:'passed',origin:'http://127.0.0.1:5173',checkedAt:new Date().toISOString(),elapsedMs:elapsed,status,sha256:digest,checks:['Loading state is visible and Share is disabled until selected image decodes','An export requested during load awaits only the selected environment','Selected decode wait resolves while unused environment is still loading','Repeated decoded export is byte-identical']},null,2));console.log('PASS Selected-image decode awaited; unused image still loading; export hash',digest);
+}finally{clearTimeout(timer);await context?.close();await browser?.close();}

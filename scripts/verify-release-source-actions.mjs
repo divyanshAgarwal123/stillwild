@@ -1,0 +1,81 @@
+import {chromium,expect} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+const out=resolve(process.env.STILLWILD_EVIDENCE_DIR||'.asyncly/visual-captures/release-retest/source-actions');
+await mkdir(out,{recursive:true});
+let browser,context,page;const checks=[],errors=[];
+const deadline=setTimeout(()=>void browser?.close(),180000);
+const button=name=>page.getByRole('button',{name,exact:true});
+const pass=name=>{checks.push({name,result:'passed'});console.log('PASS',name);};
+const selected=()=>page.locator('.p-layer.selected .p-layer-select');
+const ai=()=>page.getByRole('tab',{name:'AI',exact:true}).click();
+const act=()=>button('Animate photograph ↗').click();
+const photo=()=>expect(selected()).toHaveAttribute('aria-label','Select Tidal studies');
+try{
+ browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,timeout:15000});
+ context=await browser.newContext({viewport:{width:1440,height:1000},deviceScaleFactor:1,acceptDownloads:true});
+ page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('http://127.0.0.1:5173/',{waitUntil:'networkidle'});
+ await button('Open Tidal studies theme').click();await button('Pause loop').click();
+ await button('Select Tidal studies — title').click();
+ await act();await photo();await expect(page.locator('.p-ai-source')).toHaveText('Source: Tidal studies');
+ await expect(button('Generate with free Wan')).toBeEnabled();
+ await expect(page.locator('.photo-artboard canvas')).toBeInViewport({ratio:1});
+ await page.screenshot({path:resolve(out,'animate-photograph-selected-source.jpg'),type:'jpeg',quality:85});
+ pass('Explicit Animate photograph selects the visible unlocked coast photo from a text selection');
+ await button('Select Tidal studies — title').click();
+ await expect(page.locator('.p-library-credit')).toContainText('Local layers');
+ await expect(page.locator('.p-library-credit a')).toHaveCount(0);
+ await page.locator('.p-library-credit').scrollIntoViewIfNeeded();
+ await page.screenshot({path:resolve(out,'tidal-text-local-credit.jpg'),type:'jpeg',quality:85});
+ pass('Text gets local-layer credit, with no unrelated photographer or photo link');
+ for(const kind of ['shape','gradient']){
+  await button(`Add ${kind} layer`).click();
+  await expect(page.locator('.p-library-credit')).toContainText('Local layers');
+  await act();await photo();
+ }
+ pass('Shape and gradient actions select a photograph and never inherit default-asset credit');
+ await button('Duplicate layer').click();
+ const kept=await selected().getAttribute('aria-label');await act();
+ await expect(selected()).toHaveAttribute('aria-label',kept);
+ pass('An already selected eligible photograph is kept instead of replaced by another image');
+ await button('Remove layer').click();await button('Select Tidal studies').click();
+ for(const [toggle,undo]of [['Hide Tidal studies','Show Tidal studies'],['Lock Tidal studies','Unlock Tidal studies']]){
+  await button(toggle).click();await ai();
+  await expect(button('Generate with free Wan')).toBeDisabled();
+  await act();await expect(page.locator('.p-toast')).toContainText('Show and unlock a photograph');
+  await expect(button(undo)).toBeVisible();await button(undo).click();
+ }
+ pass('Hidden/locked sole photographs cannot generate; explicit action gives actionable layer recovery');
+ await button('Select Tidal studies').click();await page.getByRole('tab',{name:'Layer',exact:true}).click();
+ await page.getByRole('spinbutton',{name:'Layer opacity',exact:true}).fill('0');
+ await page.getByRole('spinbutton',{name:'Layer opacity',exact:true}).press('Tab');
+ await act();await expect(page.locator('.p-toast')).toContainText('Show and unlock a photograph');
+ await page.getByRole('spinbutton',{name:'Layer opacity',exact:true}).fill('100');
+ await page.getByRole('spinbutton',{name:'Layer opacity',exact:true}).press('Tab');
+ pass('Zero-opacity photograph is excluded without mutating its visibility or opacity');
+ await page.getByRole('button',{name:'Import video clip',exact:false}).click();
+ await page.getByLabel('Import video file',{exact:true}).setInputFiles(resolve('.asyncly/visual-captures/free-wan-api/Wan-Forest-original.mp4'));
+ await expect(page.locator('.p-import-status')).toHaveCount(0);
+ const videoSelection=await selected().getAttribute('aria-label');await ai();
+ await expect(selected()).toHaveAttribute('aria-label',videoSelection);
+ await expect(button('Generate with free Wan')).toBeDisabled();
+ await act();await photo();
+ pass('AI tab preserves deliberate video selection; explicit Animate action selects the eligible image');
+ await button('Duplicate layer').click();
+ const second=await selected().getAttribute('aria-label');await button('Select Tidal studies').click();
+ await button('Hide Tidal studies').click();await act();
+ await expect(selected()).toHaveAttribute('aria-label',second);
+ await button('Remove layer').click();await button('Select Tidal studies').click();await button('Show Tidal studies').click();
+ await button('Lock Tidal studies').click();
+ await button('Select Tidal studies — title').click();await act();
+ await expect(page.locator('.p-toast')).toContainText('Show and unlock a photograph');
+ await button('Unlock Tidal studies').click();await button('Select Tidal studies').click();await button('Remove layer').click();
+ await act();await expect(page.locator('.p-toast')).toContainText('import one');
+ await expect(button('Import your photograph')).toBeVisible();
+ pass('Fallback skips hidden/locked images and no-photo projects retain their data with an import action');
+ assert.deepEqual(errors,[]);
+ await writeFile(resolve(out,'report.json'),JSON.stringify({result:'passed',checkedAt:new Date().toISOString(),checks,errors},null,2));
+}catch(e){await page?.screenshot({path:resolve(out,'failure.jpg'),type:'jpeg',quality:85}).catch(()=>{});await writeFile(resolve(out,'report.json'),JSON.stringify({result:'failed',checks,errors,error:e.stack},null,2));throw e;}
+finally{clearTimeout(deadline);await context?.close();await browser?.close();}
