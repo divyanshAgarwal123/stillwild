@@ -4,7 +4,7 @@
 
 A browser wallpaper studio built with Codex inside Asyncly for Asyncly Hackathon #1. Start with a photograph, shape its atmosphere, and keep the result as an editable project, a 4K wallpaper, or a video loop.
 
-[Open the studio](https://stillwild-studio.divyansh104agarwal.chatgpt.site) · [Watch the 40-second demo](https://drive.google.com/file/d/1jgBOzWoCf7lKHia-4tNcH6h-ISeCJk5d/view?usp=drivesdk)
+[Open the studio](https://stillwild-gamma.vercel.app) · [Watch the 40-second demo](https://drive.google.com/file/d/1jgBOzWoCf7lKHia-4tNcH6h-ISeCJk5d/view?usp=drivesdk)
 
 [![Watch the Stillwild launch video](docs/media/demo-poster.jpg)](https://drive.google.com/file/d/1jgBOzWoCf7lKHia-4tNcH6h-ISeCJk5d/view?usp=drivesdk)
 
@@ -69,7 +69,7 @@ The historical browser scripts retain their original local fixture requirements.
 
 ## Build and assets
 
-Application code was written during the event through Codex inside the existing Asyncly project. This repository is a publication snapshot of the accepted release; application source is unchanged. Hosting credentials, private projects, imported media and runtime captures are excluded.
+Application code was written during the event through Codex inside the existing Asyncly project. The accepted hackathon release is preserved at commit `43e16bd76713eba0682731e786ae55941b579aa0`. Later updates add Vercel hosting and a welcome-first entry flow with saved-project resume. Hosting credentials, private projects, imported media and runtime captures are excluded.
 
 The app uses React/React DOM, TypeScript, Vite, the official `@gradio/client` 2.7.2, and unmodified Mediabunny 1.65.2. Mediabunny is MPL-2.0; its full license and source notice are preserved. Manrope is SIL OFL 1.1. Playwright is used for browser verification.
 
